@@ -59,8 +59,7 @@ def createDict(filenames, subredditName1, subredditName2):
     wordDict1 = defaultdict(int)
     wordDict2 = defaultdict(int)
     
-    stop_word =["and","the","I","you","to","a","it","is","of","you","that","for","in","with","on","have","be","but","are","this","not","as","my","like","or","just","can","if","your"]
-
+    stop_word =["and","the","I","you","to","a","it","is","of","you","that","for","in","with","on","have","be","but","are","this","not","as","my","like","or","just","can","if","your","they","was","so","its","will","at","get","would","more","The","me","an","all","from","about","do","dont","Im","what","there","has","when","some","than","them","It","much","even","If","no","use","their","You","now","by","had","because","still","any","other","Its","then","i","how","know","way","also","make","too","which","need","we","been","could","into","well","same"]
     occulus, Vive = subreddits_comments(filenames, subredditName1, subredditName2)
     for i in occulus:
 
@@ -73,9 +72,7 @@ def createDict(filenames, subredditName1, subredditName2):
         text = re.sub('[0-9]', '', text)
 
         for word in text.split():
-            if word in stop_word:
-                text.remove(word)
-            else:
+            if word not in stop_word:
                 wordDict1[word] += 1
     for i in Vive:
         text = i['body']
@@ -86,9 +83,7 @@ def createDict(filenames, subredditName1, subredditName2):
         text = re.sub('[0-9]', '', text)
         
         for word in text.split():
-            if word in stop_word:
-                text.remove(word)
-            else:
+            if word not in stop_word:
                 wordDict1[word] += 1
 
     return wordDict1, wordDict2
