@@ -58,6 +58,9 @@ def createDict(filenames, subredditName1, subredditName2):
     """
     wordDict1 = defaultdict(int)
     wordDict2 = defaultdict(int)
+    #delete the stop words
+    stop_words = ["the","to","a","I","and","it","is","of","you","that","for","in","on", "with","be","have","but", "not","this", "are", "my", "just", "as", "like","they","was","can", "your","will"]
+
 
     occulus, Vive = subreddits_comments(filenames, subredditName1, subredditName2)
     for i in occulus:
@@ -69,9 +72,12 @@ def createDict(filenames, subredditName1, subredditName2):
 
         # remove numbers
         text = re.sub('[0-9]', '', text)
-
+        
         for word in text.split():
-            wordDict1[word] += 1
+            if word in stop_words:
+                text.remove(word)
+            else:
+                wordDict1[word] += 1
     for i in Vive:
         text = i['body']
 
@@ -81,7 +87,10 @@ def createDict(filenames, subredditName1, subredditName2):
         text = re.sub('[0-9]', '', text)
 
         for word in text.split():
-            wordDict2[word] += 1
+            if word in stop_words:
+                text.remove(word)
+            else:
+                wordDict2[word] += 1
 
     return wordDict1, wordDict2
 
@@ -107,6 +116,8 @@ oculusWordDict, ViveWordDict = createDict(filenames ,"oculus", 'Vive')
 occulusWordDict = {k: v for k, v in sorted(oculusWordDict.items(), key=lambda item: item[1], reverse= True)}
 ViveWordDict  = {k: v for k, v in sorted(ViveWordDict.items(), key=lambda item: item[1], reverse= True)}
 
+#delete the stop words
+stop_words = ["the","to","a","I","and","it","is","of","you","that","for","in","on", "with","be","have","but", "not","this", "are", "my", "just", "as", "like","they","was","can", "your","will"]
 
 # just to display the key-values
 i = 0
