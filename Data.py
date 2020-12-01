@@ -58,6 +58,8 @@ def createDict(filenames, subredditName1, subredditName2):
     """
     wordDict1 = defaultdict(int)
     wordDict2 = defaultdict(int)
+    
+    stop_word =["and","the","I","you","to","a","it","is","of","you","that","for","in","with","on","have","be","but","are","this","not","as","my","like","or","just","can","if","your"]
 
     occulus, Vive = subreddits_comments(filenames, subredditName1, subredditName2)
     for i in occulus:
@@ -71,7 +73,10 @@ def createDict(filenames, subredditName1, subredditName2):
         text = re.sub('[0-9]', '', text)
 
         for word in text.split():
-            wordDict1[word] += 1
+            if word in stop_word:
+                text.remove(word)
+            else:
+                wordDict1[word] += 1
     for i in Vive:
         text = i['body']
 
@@ -79,9 +84,12 @@ def createDict(filenames, subredditName1, subredditName2):
         text = text.translate(str.maketrans('', '', string.punctuation))
         # remove numbers
         text = re.sub('[0-9]', '', text)
-
+        
         for word in text.split():
-            wordDict2[word] += 1
+            if word in stop_word:
+                text.remove(word)
+            else:
+                wordDict1[word] += 1
 
     return wordDict1, wordDict2
 
